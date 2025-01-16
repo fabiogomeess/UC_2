@@ -1,7 +1,7 @@
 # ANÁLISE DE DADOS UPPS (Colunas -> upp e hom_doloso)
 import pandas as pd
 import numpy as np
-
+import matplotlib.pyplot as plt
 # IMPORTANDO BASE DE DADOS (UppEvolucaoMensalDeTitulos)
 endereco_dados = 'https://www.ispdados.rj.gov.br/Arquivos/UppEvolucaoMensalDeTitulos.csv'
 
@@ -69,3 +69,42 @@ if len(f"\ndf_hom_doloso_outliers_superiores") == 0:
     print("Não existem outliers superiores")
 else:
     print(df_hom_doloso_outliers_superiores)
+
+# VISUALIZANDO OS DADOS SOBRE HOMICÍDIO DOLOSO
+print("\nVISUALIZANDO OS DADOS...")
+plt.subplots(2,2,figsize=(16,7))
+plt.suptitle('Análise dos Dados sobre Homicídios Dolosos por UPPs')
+
+# Posição 01: Gráfico dos Homicídios Dolosos
+plt.subplot(2,2,1)
+plt.title('BoxPlot dos Homicidios Dolosos')
+plt.boxplot(array_hom_doloso,vert=False,showmeans=True)
+
+# Posição 2: Histograma dos Homicídios Dolosos
+plt.subplot(2,2,2)
+plt.title('Histograma dos Homicídios Dolosos')
+plt.hist(array_hom_doloso,bins=100,edgecolor='black')
+
+# Posição 03: Lista de UPP's com Outliers
+plt.subplot(2,2,3)
+df_hom_doloso_outliers_superiores_order = df_hom_doloso_outliers_superiores.sort_values(by='hom_doloso',ascending=True)
+plt.title("Ranking das UPP's com Outliers Superiores")
+plt.barh(df_hom_doloso_outliers_superiores_order['upp'],df_hom_doloso_outliers_superiores_order['hom_doloso'])
+
+# Posição 04: Medidas Descritivas dos Homicídios Dolosos
+plt.subplot(2,2,4)
+plt.title('Medidas Descritivas dos Homícidos Dolosos')
+plt.axis('off')
+plt.text(0.1,0.9,f'A média de Homicídios Dolosos é {media_hom_doloso}.',fontsize=12)
+plt.text(0.1,0.8,f'A mediana de Homicídios Dolosos é {mediana_hom_doloso}.',fontsize=12)
+plt.text(0.1,0.7,f'A distância entre a média e a mediana é {distancia}.',fontsize=12)
+plt.text(0.1,0.6,f'O maior número de casos: {maior_hom_doloso}.',fontsize=12)
+plt.text(0.1,0.5,f'O menor número de casos: {menor_hom_doloso}.',fontsize=12)
+plt.text(0.1,0.4,f'A amplitude é {amplitude}.',fontsize=12)
+plt.text(0.1,0.3,f'Limite Superior dos Homicídios: {limite_superior_hom_doloso}.',fontsize=12)
+plt.text(0.1,0.2,f'Limite Inferior dos Homicídios: {limite_inferior_hom_doloso}.',fontsize=12)
+
+# EXIBINDO O PAINEL
+
+plt.tight_layout()
+plt.show()
