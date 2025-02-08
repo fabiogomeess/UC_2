@@ -239,3 +239,5 @@ plt.text(0.1,0.3,f'Coeficiente de variação dos Roubos de Veículos {coeficient
 # Exibindo o Painel
 plt.tight_layout()
 plt.show()
+
+
